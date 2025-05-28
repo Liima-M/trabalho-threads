@@ -1,20 +1,29 @@
 package org.example.factory;
 
 import org.example.enums.Direcoes;
-import org.example.model.estrada.EstradaAbstrata;
-import org.example.model.estrada.EstradaEsquerda;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class EstradaFactory {
-    private Map<Direcoes, EstradaAbstrata> estradasMap = new HashMap<>();
+    private Map<Direcoes, String> estradasMap = new HashMap<>();
 
     public EstradaFactory() {
-        estradasMap.put(Direcoes.ESQUERDA, new EstradaEsquerda());
+        estradasMap.put(Direcoes.CIMA, "");
+        estradasMap.put(Direcoes.DIREITA, "");
+        estradasMap.put(Direcoes.BAIXO, "");
+        estradasMap.put(Direcoes.ESQUERDA, "");
+        estradasMap.put(Direcoes.CRUZAMENTO_CIMA, "");
+        estradasMap.put(Direcoes.CRUZAMENTO_DIREITA, "");
+        estradasMap.put(Direcoes.CRUZAMENTO_BAIXO, "");
+        estradasMap.put(Direcoes.CRUZAMENTO_ESQUERDA, "");
+        estradasMap.put(Direcoes.CRUZAMENTO_CIMA_DIREITA, "");
+        estradasMap.put(Direcoes.CRUZAMENTO_CIMA_ESQUERDA, "");
+        estradasMap.put(Direcoes.CRUZAMENTO_BAIXO_DIREITA, "");
+        estradasMap.put(Direcoes.CRUZAMENTO_BAIXO_ESQUERDA, "");
     }
 
-    public EstradaAbstrata getEstrada(int tipo) {
+    public String getImagePath(int tipo) {
         try {
             return estradasMap.get(tipo);
         } catch (IllegalArgumentException e) {

@@ -2,8 +2,7 @@ package org.example.controller;
 
 import org.example.abstractfactory.AbstractThreadMediadorFactory;
 import org.example.enums.Direcoes;
-import org.example.factory.EstradaFactory;
-import org.example.model.estrada.EstradaAbstrata;
+import org.example.model.EstradaAbstrata;
 import org.example.model.celula.AbstractCelula;
 import org.example.observer.ObserverCelula;
 
@@ -137,7 +136,7 @@ public class MalhaController {
         this.estradas = new EstradaAbstrata[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                estradas[i][j] = getPiece(malhaViaria[i][j]);
+                estradas[i][j] = new EstradaAbstrata(malhaViaria[i][j]);
             }
         }
         return estradas;
@@ -145,9 +144,5 @@ public class MalhaController {
 
     public EstradaAbstrata[][] getPieces() {
         return estradas;
-    }
-
-    private EstradaAbstrata getPiece(int tipo) {
-        return (new EstradaFactory()).getEstrada(tipo);
     }
 }

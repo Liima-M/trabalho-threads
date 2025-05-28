@@ -26,15 +26,11 @@ public class FileUtil {
     }
 
     public static String getImagePath() {
-        return "./src/main/java/resources/assets/";
+        return "./src/main/java/org/example/icon/";
     }
 
     public static String createImagePath(String image) {
-        return createImagePath(image, "png");
-    }
-
-    public static String createImagePath(String image, String extensao) {
-        return getImagePath() + "/" + image + "." + extensao;
+        return getImagePath() + "/" + image + ".png";
     }
 
     public static int[][] gerarRoadMesh(File arquivo) throws Exception {
