@@ -2,7 +2,7 @@ package org.example.controller;
 
 import org.example.abstractfactory.AbstractThreadMediadorFactory;
 import org.example.enums.Direcoes;
-import org.example.model.EstradaAbstrata;
+import org.example.model.Estrada;
 import org.example.model.celula.AbstractCelula;
 import org.example.observer.ObserverCelula;
 
@@ -14,7 +14,7 @@ public class MalhaController {
     private int[][] malhaViaria;
     private AbstractCelula[][] matriz;
     private List<AbstractCelula> inicioNode;
-    private EstradaAbstrata[][] estradas;
+    private Estrada[][] estradas;
     private AbstractThreadMediadorFactory threadController;
 
     private MalhaController() {
@@ -130,19 +130,19 @@ public class MalhaController {
         return (row >= 0) && (row < (malhaViaria.length - 1)) && (col >= 0) && col < (malhaViaria[0].length - 1);
     }
 
-    public EstradaAbstrata[][] initPiece() {
+    public Estrada[][] initPiece() {
         int row = malhaViaria.length;
         int column = malhaViaria[0].length;
-        this.estradas = new EstradaAbstrata[row][column];
+        this.estradas = new Estrada[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                estradas[i][j] = new EstradaAbstrata(malhaViaria[i][j]);
+                estradas[i][j] = new Estrada(malhaViaria[i][j]);
             }
         }
         return estradas;
     }
 
-    public EstradaAbstrata[][] getPieces() {
+    public Estrada[][] getPieces() {
         return estradas;
     }
 }

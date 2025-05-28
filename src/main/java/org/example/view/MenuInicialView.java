@@ -4,27 +4,24 @@ import org.example.controller.MalhaController;
 import org.example.controller.Controller;
 import org.example.abstractfactory.MonitorFactory;
 import org.example.abstractfactory.SemaforoFactory;
+import org.example.observer.ObserverView;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuInicial extends JFrame {
+public class MenuInicialView extends JFrame implements ObserverView {
 
     private Controller controller;
     private JFileChooser jfcArquivo;
     private JTextField txtCaminho;
     private JButton btnProcurar;
-    private JButton btnMutext;
+    private JButton btnSemaforo;
     private JButton btnMonitor;
 
-    public MenuInicial() {
-        definePropriedades();
+    public MenuInicialView() {
+        controller = new Controller(this);
         criaCampos();
         criaActionListeners();
-    }
-
-    private void definePropriedades() {
-
     }
 
     private void criaCampos() {
@@ -54,12 +51,12 @@ public class MenuInicial extends JFrame {
         panLinhaBusca.add(btnProcurar, constraints);
 
 
-        btnMutext = new JButton("Iniciar Mutex");
-        btnMutext.setPreferredSize(new Dimension(120, 26));
-        btnMutext.setMinimumSize(new Dimension(120, 26));
-        btnMutext.setEnabled(false);
+        btnSemaforo = new JButton("Semáforo");
+        btnSemaforo.setPreferredSize(new Dimension(120, 26));
+        btnSemaforo.setMinimumSize(new Dimension(120, 26));
+        btnSemaforo.setEnabled(false);
 
-        btnMonitor = new JButton("Iniciar Monitor");
+        btnMonitor = new JButton("Monitor");
         btnMonitor.setPreferredSize(new Dimension(120, 26));
         btnMonitor.setMinimumSize(new Dimension(120, 26));
         btnMonitor.setEnabled(false);
@@ -89,7 +86,7 @@ public class MenuInicial extends JFrame {
         panLayout.add(panLinhaBusca, constraints);
         constraints.gridy = 2;
         constraints.insets = new Insets(10, 320, 0, 0);
-        panLayout.add(btnMutext, constraints);
+        panLayout.add(btnSemaforo, constraints);
         constraints.gridy = 4;
         constraints.insets = new Insets(10, 320, 0, 0);
         panLayout.add(btnMonitor, constraints);
@@ -98,24 +95,45 @@ public class MenuInicial extends JFrame {
 
     private void criaActionListeners() {
         btnProcurar.addActionListener(click -> {
-            int i= jfcArquivo.showSaveDialog(null);
-            if (i==1){
+            int i = jfcArquivo.showSaveDialog(null);
+            if (i == 1) {
                 txtCaminho.setText("Selecione um arquivo de malha rodoviaria");
-                btnMutext.setEnabled(false);
+                btnSemaforo.setEnabled(false);
                 btnMonitor.setEnabled(false);
             } else {
-                this.controller.updateRoadMesh(jfcArquivo.getSelectedFile());
+                controller.updateRoadMesh(jfcArquivo.getSelectedFile());
             }
         });
 
-        btnMutext.addActionListener(click -> {
+        btnSemaforo.addActionListener(click -> {
             MalhaController.getInstance().setThreadController(new SemaforoFactory());
-            this.controller.navigateNextView();
+            controller.navigateNextView();
         });
 
         btnMonitor.addActionListener(click -> {
             MalhaController.getInstance().setThreadController(new MonitorFactory());
-            this.controller.navigateNextView();
+            controller.navigateNextView();
         });
+    }
+
+    @Override
+    public void ativedInitialButton() {
+        btnSemaforo.setEnabled(true);
+        btnMonitor.setEnabled(true);
+    }
+
+    @Override
+    public void notifyErrorFile() {
+        JOptionPane.showMessageDialog(null, "O arquivo selecionado não possui o padrão adequado de uma malha rodoviaria",
+                "Erro no arquivo", JOptionPane.ERROR_MESSAGE);
+        btnSemaforo.setEnabled(false);
+        btnMonitor.setEnabled(false);
+    }
+
+    @Override
+    public void navigateNextView() {
+        MalhaViariaView view = new MalhaViariaView();
+        view.setVisible(true);
+        this.dispose();
     }
 }
