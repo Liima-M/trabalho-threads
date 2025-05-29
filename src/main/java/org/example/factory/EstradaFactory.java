@@ -13,14 +13,14 @@ public class EstradaFactory {
         estradasMap.put(Direcoes.DIREITA, "DIREITA");
         estradasMap.put(Direcoes.BAIXO, "BAIXO");
         estradasMap.put(Direcoes.ESQUERDA, "ESQUERDA");
-        estradasMap.put(Direcoes.CRUZAMENTO_CIMA, "");
-        estradasMap.put(Direcoes.CRUZAMENTO_DIREITA, "");
-        estradasMap.put(Direcoes.CRUZAMENTO_BAIXO, "");
-        estradasMap.put(Direcoes.CRUZAMENTO_ESQUERDA, "");
-        estradasMap.put(Direcoes.CRUZAMENTO_CIMA_DIREITA, "");
-        estradasMap.put(Direcoes.CRUZAMENTO_CIMA_ESQUERDA, "");
-        estradasMap.put(Direcoes.CRUZAMENTO_BAIXO_DIREITA, "");
-        estradasMap.put(Direcoes.CRUZAMENTO_BAIXO_ESQUERDA, "");
+        estradasMap.put(Direcoes.CRUZAMENTO_CIMA, "CRUZAMENTOCIMA");
+        estradasMap.put(Direcoes.CRUZAMENTO_DIREITA, "CRUZAMENTODIREITA");
+        estradasMap.put(Direcoes.CRUZAMENTO_BAIXO, "CRUZAMENTOBAIXO");
+        estradasMap.put(Direcoes.CRUZAMENTO_ESQUERDA, "CRUZAMENTOESQUERDA");
+        estradasMap.put(Direcoes.CRUZAMENTO_CIMA_DIREITA, "CRUZAMENTODIREITACIMA");
+        estradasMap.put(Direcoes.CRUZAMENTO_CIMA_ESQUERDA, "CRUZAMENTOCIMAESQUERDA");
+        estradasMap.put(Direcoes.CRUZAMENTO_BAIXO_DIREITA, "CRUZAMENTODIREITABAIXO");
+        estradasMap.put(Direcoes.CRUZAMENTO_BAIXO_ESQUERDA, "CRUZAMENTOBAIXOESQUERDA");
     }
 
     public String getImagePath(int tipo) {
