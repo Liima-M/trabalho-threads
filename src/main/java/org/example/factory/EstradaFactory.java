@@ -25,7 +25,8 @@ public class EstradaFactory {
 
     public String getImagePath(int tipo) {
         try {
-            return estradasMap.get(tipo);
+            Direcoes direcao = Direcoes.fromValor(tipo);
+            return estradasMap.get(direcao);
         } catch (IllegalArgumentException e) {
             return null;
         }
