@@ -11,31 +11,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrafegoController implements ObserverCelula {
-    private ObserverCelula observerNode;
-    private int[][] roadMesh;
+    private ObserverCelula observerCelula;
+    private int[][] malhaViaria;
     private boolean interruptClick;
-    private AbstractCelula[][] nodeMesh;
-    public Estrada[][] pieces;
-    private List<Carro> cars;
+    private AbstractCelula[][] matriz;
+    public Estrada[][] estradas;
+    private List<Carro> carros;
     private int numThreads = 0;
 
     public TrafegoController() {
         super();
         interruptClick = false;
-        this.roadMesh = MalhaController.getInstance().getMalhaViaria();
-        pieces = MalhaController.getInstance().getPieces();
+        this.malhaViaria = MalhaController.getInstance().getMalhaViaria();
+        estradas = MalhaController.getInstance().getPieces();
     }
 
     public int getRowCount() {
-        return roadMesh.length;
+        return malhaViaria.length;
     }
 
     public int getColumnCount() {
-        return roadMesh[0].length;
+        return malhaViaria[0].length;
     }
 
     public Estrada getValueAt(int rowIndex, int columnIndex) {
-        return pieces[rowIndex][columnIndex];
+        return estradas[rowIndex][columnIndex];
     }
 
     public boolean hasElementAt(int linha, int coluna, int[][] state) {
@@ -46,79 +46,79 @@ public class TrafegoController implements ObserverCelula {
         }
     }
 
-    public List<Carro> getCars() {
-        return cars;
+    public List<Carro> getCarros() {
+        return carros;
     }
 
     public void onIniciar(String s) {
         interruptClick = false;
-        nodeMesh = MalhaController.getInstance().criaMatriz(this);
+        matriz = MalhaController.getInstance().criaMatriz(this);
         mapeaEntrada();
-        cars = new ArrayList<>();
+        carros = new ArrayList<>();
         if (s.matches("^\\d+$")) {
             int numThreads = Integer.parseInt(s);
             this.numThreads = numThreads;
-            CarroGenerator generator = new CarroGenerator(numThreads, cars, numThreads);
+            CarroGenerator generator = new CarroGenerator(numThreads, carros, numThreads);
             generator.start();
         }
     }
 
     public void geraCarro() {
-        CarroGenerator generator = new CarroGenerator(1, cars, numThreads);
+        CarroGenerator generator = new CarroGenerator(1, carros, numThreads);
         generator.start();
     }
 
     public void onEncerrarCarros() {
         interruptClick = true;
-        for (Carro carro : cars) {
+        for (Carro carro : carros) {
             carro.setBlockedTrue();
         }
-        cars.clear();
+        carros.clear();
     }
 
     private void mapeaEntrada() {
-        for (int coluna = 0; coluna < roadMesh[0].length; coluna++) {
-            Direcoes colunaDirecoesBaixo = Direcoes.fromValor(roadMesh[0][coluna]);
+        for (int coluna = 0; coluna < malhaViaria[0].length; coluna++) {
+            Direcoes colunaDirecoesBaixo = Direcoes.fromValor(malhaViaria[0][coluna]);
             if (colunaDirecoesBaixo == Direcoes.BAIXO) {
-                MalhaController.getInstance().addInitNode(nodeMesh[0][coluna]);
+                MalhaController.getInstance().addInitNode(matriz[0][coluna]);
             }
-            Direcoes colunaDirecoesCima = Direcoes.fromValor(roadMesh[roadMesh.length - 1][coluna]);
+            Direcoes colunaDirecoesCima = Direcoes.fromValor(malhaViaria[malhaViaria.length - 1][coluna]);
             if (colunaDirecoesCima == Direcoes.CIMA) {
-                MalhaController.getInstance().addInitNode(nodeMesh[roadMesh.length - 1][coluna]);
+                MalhaController.getInstance().addInitNode(matriz[malhaViaria.length - 1][coluna]);
             }
         }
-        for (int linha = 0; linha < roadMesh.length - 1; linha++) {
-            Direcoes linhaDirecoesDireita = Direcoes.fromValor(roadMesh[linha][0]);
+        for (int linha = 0; linha < malhaViaria.length - 1; linha++) {
+            Direcoes linhaDirecoesDireita = Direcoes.fromValor(malhaViaria[linha][0]);
             if (linhaDirecoesDireita == Direcoes.DIREITA) {
-                MalhaController.getInstance().addInitNode(nodeMesh[linha][0]);
+                MalhaController.getInstance().addInitNode(matriz[linha][0]);
             }
-            Direcoes linhaDirecoesEsquerda = Direcoes.fromValor(roadMesh[linha][roadMesh[0].length - 1]);
+            Direcoes linhaDirecoesEsquerda = Direcoes.fromValor(malhaViaria[linha][malhaViaria[0].length - 1]);
             if (linhaDirecoesEsquerda == Direcoes.ESQUERDA) {
-                MalhaController.getInstance().addInitNode(nodeMesh[linha][roadMesh[0].length - 1]);
+                MalhaController.getInstance().addInitNode(matriz[linha][malhaViaria[0].length - 1]);
             }
         }
     }
 
     public void addObserver(ObserverCelula observer) {
-        observerNode = observer;
+        observerCelula = observer;
     }
 
 
     @Override
     public void notifyStartCar(int line, int column) {
-        observerNode.notifyStartCar(line, column);
+        observerCelula.notifyStartCar(line, column);
     }
 
     @Override
     public void notifyMoveCar(int pastLine, int pastColumn, int newLine, int newColumn) {
-        observerNode.notifyMoveCar(pastLine, pastColumn, newLine, newColumn);
+        observerCelula.notifyMoveCar(pastLine, pastColumn, newLine, newColumn);
     }
 
     @Override
     public void notifyEndCar(int line, int column, Carro car) {
-        observerNode.notifyEndCar(line, column, car);
+        observerCelula.notifyEndCar(line, column, car);
         if (!interruptClick) {
-            cars.remove(car);
+            carros.remove(car);
             geraCarro();
         }
     }

@@ -60,12 +60,15 @@ public class MalhaController {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                int typeRoad = malhaViaria[i][j];
-                Direcoes tipoEstrada = Direcoes.fromValor(typeRoad);
-                AbstractCelula node = (tipoEstrada.getValor() <= 4)
-                        ? factoryNode.createNode(i, j, typeRoad, observer)
-                        : factoryNode.createCrossNode(i, j, typeRoad, observer);
-                matriz[i][j] = node;
+                int tipoEstradaInt = malhaViaria[i][j];
+                Direcoes tipoEstrada = Direcoes.fromValor(tipoEstradaInt);
+                AbstractCelula celula = null;
+                if (tipoEstrada.getValor() >= 1 && tipoEstrada.getValor() <= 4) {
+                    celula = factoryNode.createNode(i, j, tipoEstradaInt, observer);
+                } else if (tipoEstrada.getValor() >= 5 && tipoEstrada.getValor() <= 12){
+                    celula = factoryNode.createCrossNode(i, j, tipoEstradaInt, observer);
+                }
+                matriz[i][j] = celula;
             }
         }
 

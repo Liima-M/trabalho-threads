@@ -26,18 +26,20 @@ public class FileUtil {
     }
 
     public static String getImagePath() {
-        return "./src/main/java/org/example/icon/";
+        return "src/main/java/org/example/icon/";
     }
 
     public static String createImagePath(String image) {
-        return getImagePath() + "/" + image + ".png";
+        return getImagePath() + image + ".png";
     }
 
     public static int[][] gerarRoadMesh(File arquivo) throws Exception {
         List<String> linhasArquivo = Files.readAllLines(Path.of(arquivo.getPath()));
 
-        int linhasMalha = Integer.parseInt(linhasArquivo.get(0));
-        int colunasMalha = Integer.parseInt(linhasArquivo.get(1));
+        String[] linhasMalhaString = (linhasArquivo.get(0)).split("\t");
+        int linhasMalha = Integer.parseInt(linhasMalhaString[0].trim());
+        String[] linhasArquivoString = (linhasArquivo.get(1)).split("\t");
+        int colunasMalha = Integer.parseInt(linhasArquivoString[0].trim());
 
         int[][] malhaRodoviaria = new int[linhasMalha][colunasMalha];
 

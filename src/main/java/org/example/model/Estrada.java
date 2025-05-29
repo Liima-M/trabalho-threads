@@ -10,12 +10,10 @@ public class Estrada {
 
     private int tipo;
     private boolean possuiCarro;
-    private int direcao;
 
     public Estrada(int tipo) {
         this.tipo = tipo;
         this.possuiCarro = false;
-        this.direcao = 0;
     }
 
     public int getTipo() {
@@ -34,14 +32,6 @@ public class Estrada {
         this.tipo = tipo;
     }
 
-    public int getDirecao() {
-        return direcao;
-    }
-
-    public void setDirecao(int direcao) {
-        this.direcao = direcao;
-    }
-
     public ImageIcon getImagem(TrafegoController controller) {
         int sizeIcon = (int) (this.iconSize(controller.getRowCount()));
         String path = this.getPathImageIcon();
@@ -56,7 +46,7 @@ public class Estrada {
         return icon;
     }
 
-    public ImageIcon getCar(int size) {
+    public ImageIcon getCarro(int size) {
         int sizeIcon = (int) (this.iconSize(size));
         String path = this.getPathImageCar();
         ImageIcon icon = FileUtil.create((String) path, sizeIcon, sizeIcon);

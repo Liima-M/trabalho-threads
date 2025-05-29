@@ -145,7 +145,7 @@ public class MalhaViariaView extends JFrame implements ObserverCelula {
     }
 
     public synchronized void atualizarThread() {
-        lblNumeroThreadAtual.setText(String.valueOf(controller.getCars().size()));
+        lblNumeroThreadAtual.setText(String.valueOf(controller.getCarros().size()));
         lblNumeroThreadAtual.repaint();
     }
 
@@ -156,7 +156,7 @@ public class MalhaViariaView extends JFrame implements ObserverCelula {
         Estrada pieceAtual = (Estrada) model.getValueAt(line, column);
         pieceAtual.setPossuiCarro(true);
         model.setValueAt(pieceAtual, line, column);
-        controller.pieces[line][column] = pieceAtual;
+        controller.estradas[line][column] = pieceAtual;
         board.repaint();
         atualizarThread();
     }
@@ -170,8 +170,8 @@ public class MalhaViariaView extends JFrame implements ObserverCelula {
         pieceNext.setPossuiCarro(true);
         model.setValueAt(pieceAtual, pastLine, pastColumn);
         model.setValueAt(pieceNext, newLine, newColumn);
-        controller.pieces[pastLine][pastColumn] = pieceAtual;
-        controller.pieces[newLine][newColumn] = pieceNext;
+        controller.estradas[pastLine][pastColumn] = pieceAtual;
+        controller.estradas[newLine][newColumn] = pieceNext;
         board.repaint();
     }
 
@@ -181,7 +181,7 @@ public class MalhaViariaView extends JFrame implements ObserverCelula {
         Estrada pieceAtual = (Estrada) model.getValueAt(line, column);
         pieceAtual.setPossuiCarro(false);
         model.setValueAt(pieceAtual, line, column);
-        controller.pieces[line][column] = pieceAtual;
+        controller.estradas[line][column] = pieceAtual;
         board.repaint();
         atualizarThread();
     }

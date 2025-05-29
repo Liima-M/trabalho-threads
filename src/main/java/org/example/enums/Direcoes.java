@@ -2,6 +2,7 @@ package org.example.enums;
 
 public enum Direcoes {
 
+    NADA(0),
     CIMA(1),
     DIREITA(2),
     BAIXO(3),
