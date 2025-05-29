@@ -15,8 +15,8 @@ public class MenuInicialView extends JFrame implements ObserverView {
     private JFileChooser jfcArquivo;
     private JTextField txtCaminho;
     private JButton btnProcurar;
-    private JButton btnSemaforo;
-    private JButton btnMonitor;
+    private JComboBox<String> cmbOpcao;
+    private JButton btnIniciar;
 
     public MenuInicialView() {
         controller = new Controller(this);
@@ -29,42 +29,35 @@ public class MenuInicialView extends JFrame implements ObserverView {
         GridBagConstraints constraints = new GridBagConstraints();
         JLabel lblTitulo = new JLabel("Escolha o arquivo da malha rodoviaria");
 
-        txtCaminho = new JTextField();
-        txtCaminho.setText("Selecione um arquivo");
+        txtCaminho = new JTextField("Selecione um arquivo");
         txtCaminho.setPreferredSize(new Dimension(310, 26));
-        txtCaminho.setMinimumSize(new Dimension(310, 26));
         txtCaminho.setEnabled(false);
 
         btnProcurar = new JButton("Procurar");
         btnProcurar.setPreferredSize(new Dimension(120, 26));
-        btnProcurar.setMinimumSize(new Dimension(120, 26));
 
         JPanel panLinhaBusca = new JPanel();
         panLinhaBusca.setLayout(layout);
         panLinhaBusca.setSize(400, 50);
+
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.insets = new Insets(0, 0, 0, 0);
         panLinhaBusca.add(txtCaminho, constraints);
+
         constraints.gridx = 1;
         constraints.insets = new Insets(0, 10, 0, 0);
         panLinhaBusca.add(btnProcurar, constraints);
 
+        cmbOpcao = new JComboBox<>(new String[]{"Semáforo", "Monitor"});
+        cmbOpcao.setPreferredSize(new Dimension(120, 26));
+        cmbOpcao.setEnabled(false);
 
-        btnSemaforo = new JButton("Semáforo");
-        btnSemaforo.setPreferredSize(new Dimension(120, 26));
-        btnSemaforo.setMinimumSize(new Dimension(120, 26));
-        btnSemaforo.setEnabled(false);
-
-        btnMonitor = new JButton("Monitor");
-        btnMonitor.setPreferredSize(new Dimension(120, 26));
-        btnMonitor.setMinimumSize(new Dimension(120, 26));
-        btnMonitor.setEnabled(false);
-
+        btnIniciar = new JButton("Iniciar");
+        btnIniciar.setPreferredSize(new Dimension(120, 26));
+        btnIniciar.setEnabled(false);
 
         jfcArquivo = new JFileChooser();
         jfcArquivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
 
         setTitle("Escolha a malha rodoviaria");
         setVisible(true);
@@ -79,55 +72,62 @@ public class MenuInicialView extends JFrame implements ObserverView {
         JPanel panLayout = new JPanel();
         panLayout.setLayout(layout);
         panLayout.setSize(700, 250);
+
         constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.insets = new Insets(0, 0, 0, 0);
         panLayout.add(lblTitulo, constraints);
+
         constraints.gridy = 1;
         constraints.insets = new Insets(10, 0, 0, 0);
         panLayout.add(panLinhaBusca, constraints);
+
         constraints.gridy = 2;
-        constraints.insets = new Insets(10, 320, 0, 0);
-        panLayout.add(btnSemaforo, constraints);
-        constraints.gridy = 4;
-        constraints.insets = new Insets(10, 320, 0, 0);
-        panLayout.add(btnMonitor, constraints);
+        constraints.insets = new Insets(10, 0, 0, 0);
+        panLayout.add(cmbOpcao, constraints);
+
+        constraints.gridy = 3;
+        constraints.insets = new Insets(10, 0, 0, 0);
+        panLayout.add(btnIniciar, constraints);
+
         return panLayout;
     }
 
     private void criaActionListeners() {
         btnProcurar.addActionListener(click -> {
             int i = jfcArquivo.showSaveDialog(null);
-            if (i == 1) {
-                txtCaminho.setText("Selecione um arquivo de malha rodoviaria");
-                btnSemaforo.setEnabled(false);
-                btnMonitor.setEnabled(false);
-            } else {
+            if (i == JFileChooser.APPROVE_OPTION) {
                 controller.updateRoadMesh(jfcArquivo.getSelectedFile());
+            } else {
+                txtCaminho.setText("Selecione um arquivo de malha rodoviaria");
+                cmbOpcao.setEnabled(false);
+                btnIniciar.setEnabled(false);
             }
         });
 
-        btnSemaforo.addActionListener(click -> {
-            MalhaController.getInstance().setThreadController(new SemaforoFactory());
-            controller.navigateNextView();
-        });
-
-        btnMonitor.addActionListener(click -> {
-            MalhaController.getInstance().setThreadController(new MonitorFactory());
+        btnIniciar.addActionListener(click -> {
+            String opcao = (String) cmbOpcao.getSelectedItem();
+            if ("Semáforo".equals(opcao)) {
+                MalhaController.getInstance().setThreadController(new SemaforoFactory());
+            } else if ("Monitor".equals(opcao)) {
+                MalhaController.getInstance().setThreadController(new MonitorFactory());
+            }
             controller.navigateNextView();
         });
     }
 
     @Override
     public void ativedInitialButton() {
-        btnSemaforo.setEnabled(true);
-        btnMonitor.setEnabled(true);
+        cmbOpcao.setEnabled(true);
+        btnIniciar.setEnabled(true);
     }
 
     @Override
     public void notifyErrorFile() {
         JOptionPane.showMessageDialog(null, "O arquivo selecionado não possui o padrão adequado de uma malha rodoviaria",
                 "Erro no arquivo", JOptionPane.ERROR_MESSAGE);
-        btnSemaforo.setEnabled(false);
-        btnMonitor.setEnabled(false);
+        cmbOpcao.setEnabled(false);
+        btnIniciar.setEnabled(false);
     }
 
     @Override
