@@ -9,10 +9,10 @@ public class EstradaFactory {
     private Map<Direcoes, String> estradasMap = new HashMap<>();
 
     public EstradaFactory() {
-        estradasMap.put(Direcoes.CIMA, "");
-        estradasMap.put(Direcoes.DIREITA, "");
-        estradasMap.put(Direcoes.BAIXO, "");
-        estradasMap.put(Direcoes.ESQUERDA, "");
+        estradasMap.put(Direcoes.CIMA, "CIMA");
+        estradasMap.put(Direcoes.DIREITA, "DIREITA");
+        estradasMap.put(Direcoes.BAIXO, "BAIXO");
+        estradasMap.put(Direcoes.ESQUERDA, "ESQUERDA");
         estradasMap.put(Direcoes.CRUZAMENTO_CIMA, "");
         estradasMap.put(Direcoes.CRUZAMENTO_DIREITA, "");
         estradasMap.put(Direcoes.CRUZAMENTO_BAIXO, "");
