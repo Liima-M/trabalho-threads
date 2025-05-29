@@ -1,7 +1,10 @@
 package org.example;
 
+import org.example.view.MenuInicialView;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        MenuInicialView menuInicial = new MenuInicialView();
+        menuInicial.setVisible(true);
     }
 }
