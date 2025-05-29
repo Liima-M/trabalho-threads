@@ -46,7 +46,7 @@ public class MalhaViariaView extends JFrame implements ObserverCelula {
         GridBagConstraints constraints = new GridBagConstraints();
 
         // Labels
-        JLabel lblTituloNumeroThread = new JLabel("N° Threads");
+        JLabel lblTituloNumeroThread = new JLabel("Número de Threads");
         lblTituloNumeroThread.setPreferredSize(new Dimension(LARGURA_TELA / 6, LARGURA_COLUNA_GRID));
 
         JLabel lblTituloThreadAtual = new JLabel("Threads em funcionamento");

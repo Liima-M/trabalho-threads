@@ -26,8 +26,8 @@ public class MalhaViariaJTable extends JTable {
 
     private void defineProperties() {
         this.setOpaque(false);
-        this.setBackground(new Color(92, 142, 203));
-        Color gridColor = new Color(42, 94, 157);
+        this.setBackground(new Color(240, 220, 130));
+        Color gridColor = new Color(200, 170, 80);
         setRowHeight(ALTURA_GRID);
         this.setBorder(BorderFactory.createLineBorder(gridColor));
         this.setGridColor(gridColor);
